@@ -1,0 +1,2 @@
+dotnet ef migrations add InitialCreate --project SchoolManagement.Infrastructure --startup-project SchoolManagement.API
+dotnet ef database update --project SchoolManagement.Infrastructure --startup-project SchoolManagement.API
