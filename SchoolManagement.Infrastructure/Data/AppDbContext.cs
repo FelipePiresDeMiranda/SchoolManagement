@@ -19,7 +19,7 @@ namespace SchoolManagement.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
             modelBuilder.Entity<Parcela>()
                 .HasOne(p => p.Aluno)
                 .WithMany(a => a.Parcelas)

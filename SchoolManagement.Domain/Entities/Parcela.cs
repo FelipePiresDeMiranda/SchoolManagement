@@ -11,7 +11,7 @@ namespace SchoolManagement.Domain.Entities
         public DateTime DataVencimento { get; set; }
         public decimal ValorPago { get; set; }
         public StatusPagamento Status { get; set; }
-        
+
         public required virtual Aluno Aluno { get; set; }
         public required Mensalidade Mensalidade { get; set; }
 

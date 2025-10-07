@@ -1,5 +1,4 @@
 using SchoolManagement.Application.DTOs.Auth;
-using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Interfaces.Auth
 {

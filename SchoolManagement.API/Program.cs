@@ -6,7 +6,6 @@ using SchoolManagement.Application.Services.Auth;
 using SchoolManagement.Domain.Interfaces;
 using SchoolManagement.Infrastructure.Data;
 using SchoolManagement.Infrastructure.Repositories;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 

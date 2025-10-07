@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SchoolManagement.Application.DTOs;
 using SchoolManagement.Application.Interfaces;
-using System.Threading.Tasks;
 
 namespace SchoolManagement.API.Controllers
 {

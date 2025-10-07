@@ -1,5 +1,3 @@
-using System;
-
 namespace SchoolManagement.Application.DTOs
 {
     public class ParcelaDto

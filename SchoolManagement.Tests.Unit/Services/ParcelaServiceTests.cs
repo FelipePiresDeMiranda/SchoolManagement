@@ -2,7 +2,6 @@ using Moq;
 using SchoolManagement.Application.Services;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Interfaces;
-using SchoolManagement.Infrastructure.Repositories;
 
 namespace SchoolManagement.Tests.Unit.Services;
 [TestFixture]
@@ -29,7 +28,7 @@ public class ParcelaServiceTests
             ValorPago = 106,
             DataVencimento = DateTime.Today.AddDays(-3),
             Aluno = new Aluno { Id = 1, Nome = "João", Escola = escola, Parcelas = new List<Parcela>(), EscolaId = 3 },
-            Mensalidade = new Mensalidade { Id = 1, Valor = 100, DataVencimento = DateTime.Today.AddDays(-3), Escola = escola}
+            Mensalidade = new Mensalidade { Id = 1, Valor = 100, DataVencimento = DateTime.Today.AddDays(-3), Escola = escola }
         };
 
         _repoMock.Setup(r => r.ObterPorIdAsync(1)).ReturnsAsync(parcela);

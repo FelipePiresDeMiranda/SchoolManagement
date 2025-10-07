@@ -1,5 +1,4 @@
 ﻿using SchoolManagement.Domain.Entities;
-using System.Threading.Tasks;
 
 namespace SchoolManagement.Domain.Interfaces
 {

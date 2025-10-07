@@ -2,11 +2,6 @@ using SchoolManagement.Application.DTOs;
 using SchoolManagement.Application.Interfaces;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Services
 {
@@ -43,7 +38,7 @@ namespace SchoolManagement.Application.Services
                 throw new Exception("Parcela não encontrada.");
 
             if (parcela.EstaPaga)
-                throw new Exception("Parcela já está paga.");            
+                throw new Exception("Parcela já está paga.");
 
             var juros = CalcularJuros(parcela);
             var valorFinal = CalcularValorFinal(parcela);
@@ -56,16 +51,16 @@ namespace SchoolManagement.Application.Services
             }
             else
             {
-                throw new Exception(string.Concat("O valor pago da parcela é menor que o valor devido. valor pago: R$",parcela.ValorPago," valor de juros R$", juros," valor devido: R$", valorFinal));
+                throw new Exception(string.Concat("O valor pago da parcela é menor que o valor devido. valor pago: R$", parcela.ValorPago, " valor de juros R$", juros, " valor devido: R$", valorFinal));
             }
 
-                return new PagamentoDto
-                {
-                    ValorOriginal = parcela.Valor,
-                    Juros = juros,
-                    ValorFinal = valorFinal,
-                    Mensagem = (juros > 0) ? "Pagamento com juros aplicado." : "Pagamento registrado com sucesso."
-                };
+            return new PagamentoDto
+            {
+                ValorOriginal = parcela.Valor,
+                Juros = juros,
+                ValorFinal = valorFinal,
+                Mensagem = (juros > 0) ? "Pagamento com juros aplicado." : "Pagamento registrado com sucesso."
+            };
         }
 
         public async Task<PagamentoDto> AtualizarJurosAsync(int parcelaId)
@@ -74,11 +69,11 @@ namespace SchoolManagement.Application.Services
 
             if (parcela == null)
             {
-                throw new Exception("Parcela não encontrada.");                
+                throw new Exception("Parcela não encontrada.");
             }
 
             if (parcela.EstaPaga)
-                throw new Exception("Parcela já está paga.");            
+                throw new Exception("Parcela já está paga.");
 
             parcela.EstaPaga = true;
             await _parcelaRepository.AtualizarAsync(parcela);

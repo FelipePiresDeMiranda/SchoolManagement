@@ -2,7 +2,6 @@
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Interfaces;
 using SchoolManagement.Infrastructure.Data;
-using System;
 
 namespace SchoolManagement.Infrastructure.Repositories
 {

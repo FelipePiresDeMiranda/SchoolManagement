@@ -2,8 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Interfaces;
 using SchoolManagement.Infrastructure.Data;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace SchoolManagement.Infrastructure.Repositories
 {
@@ -12,7 +10,7 @@ namespace SchoolManagement.Infrastructure.Repositories
         private readonly AppDbContext _context;
 
         public ParcelaRepository()
-        {            
+        {
         }
 
         public ParcelaRepository(AppDbContext context)
