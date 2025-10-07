@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Interfaces;
 
+namespace SchoolManagement.API.Controllers;
 [ApiController]
 [Route("api/escolas/{escolaId}/mensalidades")]
 public class MensalidadeController : ControllerBase

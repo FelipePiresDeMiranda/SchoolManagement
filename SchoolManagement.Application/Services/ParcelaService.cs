@@ -5,6 +5,7 @@ using SchoolManagement.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SchoolManagement.Application.Services
@@ -42,7 +43,42 @@ namespace SchoolManagement.Application.Services
                 throw new Exception("Parcela não encontrada.");
 
             if (parcela.EstaPaga)
-                throw new Exception("Parcela já está paga.");
+                throw new Exception("Parcela já está paga.");            
+
+            var juros = CalcularJuros(parcela);
+            var valorFinal = CalcularValorFinal(parcela);
+
+            if (parcela.ValorPago >= valorFinal)
+            {
+                parcela.EstaPaga = true;
+                parcela.ValorPago = valorFinal;
+                await _parcelaRepository.AtualizarAsync(parcela);
+            }
+            else
+            {
+                throw new Exception(string.Concat("O valor pago da parcela é menor que o valor devido. valor pago: R$",parcela.ValorPago," valor de juros R$", juros," valor devido: R$", valorFinal));
+            }
+
+                return new PagamentoDto
+                {
+                    ValorOriginal = parcela.Valor,
+                    Juros = juros,
+                    ValorFinal = valorFinal,
+                    Mensagem = (juros > 0) ? "Pagamento com juros aplicado." : "Pagamento registrado com sucesso."
+                };
+        }
+
+        public async Task<PagamentoDto> AtualizarJurosAsync(int parcelaId)
+        {
+            var parcela = await _parcelaRepository.ObterPorIdAsync(parcelaId);
+
+            if (parcela == null)
+            {
+                throw new Exception("Parcela não encontrada.");                
+            }
+
+            if (parcela.EstaPaga)
+                throw new Exception("Parcela já está paga.");            
 
             parcela.EstaPaga = true;
             await _parcelaRepository.AtualizarAsync(parcela);
@@ -59,7 +95,7 @@ namespace SchoolManagement.Application.Services
             };
         }
 
-        private decimal? CalcularJuros(Parcela parcela)
+        static private decimal CalcularJuros(Parcela parcela)
         {
             if (parcela.EstaPaga || parcela.DataVencimento >= DateTime.Today)
                 return 0;
@@ -69,7 +105,7 @@ namespace SchoolManagement.Application.Services
             return Math.Round(parcela.Valor * taxa * diasAtraso, 2);
         }
 
-        private decimal? CalcularValorFinal(Parcela parcela)
+        static private decimal CalcularValorFinal(Parcela parcela)
         {
             var juros = CalcularJuros(parcela);
             return parcela.Valor + juros;

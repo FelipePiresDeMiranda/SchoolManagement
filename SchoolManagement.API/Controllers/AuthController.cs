@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.DTOs.Auth;
 using SchoolManagement.Application.Interfaces.Auth;
 
+namespace SchoolManagement.API.Controllers;
 [ApiController]
 [Route("api/auth")]
 public class AuthController : ControllerBase

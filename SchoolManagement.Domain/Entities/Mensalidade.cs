@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SchoolManagement.Domain.Entities
 {
@@ -7,8 +8,7 @@ namespace SchoolManagement.Domain.Entities
         public int Id { get; set; }
         public int EscolaId { get; set; }
         public decimal Valor { get; set; }
-        public DateTime DataVencimento { get; set; }
-        [Required]
-        public Escola Escola { get; set; }
+        public DateTime DataVencimento { get; set; }        
+        public required Escola Escola { get; set; }
     }
 }

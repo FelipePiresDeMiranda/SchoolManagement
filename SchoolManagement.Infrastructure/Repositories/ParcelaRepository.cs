@@ -11,6 +11,10 @@ namespace SchoolManagement.Infrastructure.Repositories
     {
         private readonly AppDbContext _context;
 
+        public ParcelaRepository()
+        {            
+        }
+
         public ParcelaRepository(AppDbContext context)
         {
             _context = context;

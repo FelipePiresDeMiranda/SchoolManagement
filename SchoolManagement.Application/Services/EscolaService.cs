@@ -50,7 +50,9 @@ namespace SchoolManagement.Application.Services
             {
                 Nome = dto.Nome,
                 Endereco = dto.Endereco,
-                Telefone = dto.Telefone
+                Telefone = dto.Telefone,
+                Alunos = new List<Aluno>(),
+                Mensalidades = new List<Mensalidade>()
             };
 
             await _escolaRepository.AdicionarAsync(escola);
@@ -64,7 +66,9 @@ namespace SchoolManagement.Application.Services
                 Id = dto.Id,
                 Nome = dto.Nome,
                 Endereco = dto.Endereco,
-                Telefone = dto.Telefone
+                Telefone = dto.Telefone,
+                Alunos = new List<Aluno>(),
+                Mensalidades = new List<Mensalidade>()
             };
 
             await _escolaRepository.AtualizarAsync(escola);

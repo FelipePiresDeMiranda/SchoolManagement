@@ -11,8 +11,6 @@ using System;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuração do EF Core com SQL Server
-// Connection string
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -67,4 +65,4 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
