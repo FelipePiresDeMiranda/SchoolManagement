@@ -17,7 +17,7 @@ namespace SchoolManagement.Application.Services.Auth
         public async Task<LoginResponseDto> AutenticarAsync(LoginDto login)
         {
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == login.Email);
-
+            var senha = login.Senha;
             if (usuario == null || !BCrypt.Net.BCrypt.Verify(login.Senha, usuario.SenhaHash))
                 throw new UnauthorizedAccessException("Credenciais inválidas");
 

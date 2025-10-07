@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: SchoolManagement.API/Dockerfile
     ports:
-      - "5000:5000"
+      - "5001:5001"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=db;Database=SchoolManagementDb;User=sa;Password=Your_password123;

@@ -9,6 +9,19 @@ using SchoolManagement.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// Adiciona política de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:3001")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+
 // Configuração do EF Core com SQL Server
 
 // Add DbContext
@@ -38,6 +51,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Aplica a política de CORS
+app.UseCors("PermitirFrontend");
 
 // Seed de dados
 using (var scope = app.Services.CreateScope())
