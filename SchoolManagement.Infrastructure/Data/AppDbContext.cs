@@ -20,15 +20,33 @@ namespace SchoolManagement.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Parcela>()
-                .HasOne(p => p.Aluno)
-                .WithMany(a => a.Parcelas)
-                .HasForeignKey(p => p.AlunoId);
+            // Escola -> Alunos (1:N)
+            modelBuilder.Entity<Escola>()
+                .HasMany(e => e.Alunos)
+                .WithOne(a => a.Escola)
+                .HasForeignKey(a => a.EscolaId)
+                .OnDelete(DeleteBehavior.Cascade);
 
+            // Escola -> Mensalidades (1:N)
+            modelBuilder.Entity<Escola>()
+                .HasMany(e => e.Mensalidades)
+                .WithOne()
+                .HasForeignKey("EscolaId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Mensalidade -> Parcelas (1:N)
             modelBuilder.Entity<Mensalidade>()
-                .HasOne(m => m.Escola)
-                .WithMany(e => e.Mensalidades)
-                .HasForeignKey(m => m.EscolaId);
+                .HasMany(m => m.Parcelas)
+                .WithOne()
+                .HasForeignKey("MensalidadeId")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Aluno -> Mensalidade (1:1)
+            modelBuilder.Entity<Aluno>()
+                .HasOne(a => a.Mensalidade)
+                .WithOne()
+                .HasForeignKey<Aluno>("MensalidadeId")
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

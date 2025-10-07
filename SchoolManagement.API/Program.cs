@@ -63,5 +63,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/swagger/index.html");
+    return Task.CompletedTask;
+});
 await app.RunAsync();

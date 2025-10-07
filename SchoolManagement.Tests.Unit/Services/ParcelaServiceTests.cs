@@ -19,16 +19,13 @@ public class ParcelaServiceTests
 
     [Test]
     public async Task MarcarComoPagaAsync_DeveCalcularJuros_QuandoEmAtraso()
-    {
-        var escola = new Escola { Alunos = new List<Aluno>(), Endereco = "", Mensalidades = new List<Mensalidade>(), Nome = "", Telefone = "", Id = 2 };
+    {        
         var parcela = new Parcela
         {
             Id = 1,
             Valor = 100,
             ValorPago = 106,
-            DataVencimento = DateTime.Today.AddDays(-3),
-            Aluno = new Aluno { Id = 1, Nome = "João", Escola = escola, Parcelas = new List<Parcela>(), EscolaId = 3 },
-            Mensalidade = new Mensalidade { Id = 1, Valor = 100, DataVencimento = DateTime.Today.AddDays(-3), Escola = escola }
+            DataVencimento = DateTime.Today.AddDays(-3)            
         };
 
         _repoMock.Setup(r => r.ObterPorIdAsync(1)).ReturnsAsync(parcela);

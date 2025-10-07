@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace SchoolManagement.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class NovaMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,34 +42,14 @@ namespace SchoolManagement.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Alunos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EscolaId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Alunos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Alunos_Escolas_EscolaId",
-                        column: x => x.EscolaId,
-                        principalTable: "Escolas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Mensalidades",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EscolaId = table.Column<int>(type: "int", nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DataVencimento = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataVencimento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EscolaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,28 +63,48 @@ namespace SchoolManagement.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Alunos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EscolaId = table.Column<int>(type: "int", nullable: false),
+                    MensalidadeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Alunos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Alunos_Escolas_EscolaId",
+                        column: x => x.EscolaId,
+                        principalTable: "Escolas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Alunos_Mensalidades_MensalidadeId",
+                        column: x => x.MensalidadeId,
+                        principalTable: "Mensalidades",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Parcelas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AlunoId = table.Column<int>(type: "int", nullable: false),
-                    MensalidadeId = table.Column<int>(type: "int", nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DataVencimento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ValorPago = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    EstaPaga = table.Column<bool>(type: "bit", nullable: false)
+                    EstaPaga = table.Column<bool>(type: "bit", nullable: false),
+                    MensalidadeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Parcelas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Parcelas_Alunos_AlunoId",
-                        column: x => x.AlunoId,
-                        principalTable: "Alunos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Parcelas_Mensalidades_MensalidadeId",
                         column: x => x.MensalidadeId,
@@ -118,14 +119,15 @@ namespace SchoolManagement.Infrastructure.Migrations
                 column: "EscolaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Alunos_MensalidadeId",
+                table: "Alunos",
+                column: "MensalidadeId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Mensalidades_EscolaId",
                 table: "Mensalidades",
                 column: "EscolaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Parcelas_AlunoId",
-                table: "Parcelas",
-                column: "AlunoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Parcelas_MensalidadeId",
@@ -137,13 +139,13 @@ namespace SchoolManagement.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Alunos");
+
+            migrationBuilder.DropTable(
                 name: "Parcelas");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
-
-            migrationBuilder.DropTable(
-                name: "Alunos");
 
             migrationBuilder.DropTable(
                 name: "Mensalidades");

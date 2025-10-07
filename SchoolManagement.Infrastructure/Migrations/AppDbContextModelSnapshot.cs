@@ -33,6 +33,9 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.Property<int>("EscolaId")
                         .HasColumnType("int");
 
+                    b.Property<int>("MensalidadeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -40,6 +43,9 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EscolaId");
+
+                    b.HasIndex("MensalidadeId")
+                        .IsUnique();
 
                     b.ToTable("Alunos");
                 });
@@ -110,7 +116,7 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.Property<bool>("EstaPaga")
                         .HasColumnType("bit");
 
-                    b.Property<int>("MensalidadeId")
+                    b.Property<int?>("MensalidadeId")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -123,8 +129,6 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AlunoId");
 
                     b.HasIndex("MensalidadeId");
 
@@ -163,42 +167,32 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Escola");
-                });
-
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.Mensalidade", b =>
-                {
-                    b.HasOne("SchoolManagement.Domain.Entities.Escola", "Escola")
-                        .WithMany("Mensalidades")
-                        .HasForeignKey("EscolaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Escola");
-                });
-
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.Parcela", b =>
-                {
-                    b.HasOne("SchoolManagement.Domain.Entities.Aluno", "Aluno")
-                        .WithMany("Parcelas")
-                        .HasForeignKey("AlunoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SchoolManagement.Domain.Entities.Mensalidade", "Mensalidade")
-                        .WithMany()
-                        .HasForeignKey("MensalidadeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("SchoolManagement.Domain.Entities.Aluno", "MensalidadeId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Aluno");
+                    b.Navigation("Escola");
 
                     b.Navigation("Mensalidade");
                 });
 
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.Aluno", b =>
+            modelBuilder.Entity("SchoolManagement.Domain.Entities.Mensalidade", b =>
                 {
-                    b.Navigation("Parcelas");
+                    b.HasOne("SchoolManagement.Domain.Entities.Escola", null)
+                        .WithMany("Mensalidades")
+                        .HasForeignKey("EscolaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SchoolManagement.Domain.Entities.Parcela", b =>
+                {
+                    b.HasOne("SchoolManagement.Domain.Entities.Mensalidade", null)
+                        .WithMany("Parcelas")
+                        .HasForeignKey("MensalidadeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Escola", b =>
@@ -206,6 +200,11 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.Navigation("Alunos");
 
                     b.Navigation("Mensalidades");
+                });
+
+            modelBuilder.Entity("SchoolManagement.Domain.Entities.Mensalidade", b =>
+                {
+                    b.Navigation("Parcelas");
                 });
 #pragma warning restore 612, 618
         }

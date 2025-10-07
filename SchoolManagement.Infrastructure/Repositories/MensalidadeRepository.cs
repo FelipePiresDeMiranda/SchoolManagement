@@ -16,16 +16,13 @@ namespace SchoolManagement.Infrastructure.Repositories
 
         public async Task<IEnumerable<Mensalidade>> ObterPorEscolaAsync(int escolaId)
         {
-            return await _context.Mensalidades
-                .Include(m => m.Escola)
-                .Where(m => m.EscolaId == escolaId)
+            return await _context.Mensalidades                
                 .ToListAsync();
         }
 
         public async Task<Mensalidade> ObterPorIdAsync(int mensalidadeId)
         {
-            return await _context.Mensalidades
-                .Include(m => m.Escola)
+            return await _context.Mensalidades                
                 .FirstOrDefaultAsync(m => m.Id == mensalidadeId);
         }
 

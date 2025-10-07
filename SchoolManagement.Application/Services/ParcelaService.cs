@@ -20,8 +20,7 @@ namespace SchoolManagement.Application.Services
 
             return parcelas.Select(p => new ParcelaDto
             {
-                Id = p.Id,
-                NomeAluno = p.Aluno.Nome,
+                Id = p.Id,                
                 Valor = p.Valor,
                 Vencimento = p.DataVencimento,
                 EstaPaga = p.EstaPaga,

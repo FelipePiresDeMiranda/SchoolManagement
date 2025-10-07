@@ -11,33 +11,29 @@ namespace SchoolManagement.Infrastructure.Data
         {
             if (!context.Escolas.Any())
             {
-                var escola = new Escola { Nome = "Escola Modelo", Mensalidades = new List<Mensalidade>(), Alunos = new List<Aluno>(), Endereco = "", Telefone = "", Id = 1 };
+                var escola = new Escola { Nome = "Escola Modelo", Mensalidades = new List<Mensalidade>(), Alunos = new List<Aluno>(), Endereco = "", Telefone = "" };
                 context.Escolas.Add(escola);
                 context.SaveChanges();
 
                 var mensalidade = new Mensalidade
-                {
-                    EscolaId = escola.Id,
+                {                    
                     Valor = 500,
                     DataVencimento = DateTime.Today.AddDays(10),
-                    Escola = escola
+                    Parcelas = new List<Parcela>()
                 };
                 context.Mensalidades.Add(mensalidade);
 
-                var aluno = new Aluno { Nome = "João da Silva", EscolaId = escola.Id, Escola = escola, Parcelas = new List<Parcela>() };
+                var aluno = new Aluno { Nome = "João da Silva", EscolaId = escola.Id, Escola = escola, Mensalidade = mensalidade };
                 context.Alunos.Add(aluno);
                 context.SaveChanges();
 
                 var parcela = new Parcela
                 {
-                    AlunoId = aluno.Id,
-                    MensalidadeId = mensalidade.Id,
+                    AlunoId = aluno.Id,                    
                     Valor = mensalidade.Valor,
                     DataVencimento = mensalidade.DataVencimento,
                     ValorPago = 0,
-                    Status = StatusPagamento.NaoPago,
-                    Aluno = aluno,
-                    Mensalidade = mensalidade
+                    Status = StatusPagamento.NaoPago                    
                 };
                 context.Parcelas.Add(parcela);
                 context.SaveChanges();

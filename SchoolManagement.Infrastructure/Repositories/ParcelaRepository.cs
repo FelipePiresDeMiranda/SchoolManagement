@@ -20,16 +20,14 @@ namespace SchoolManagement.Infrastructure.Repositories
 
         public async Task<IEnumerable<Parcela>> ObterPorAlunoAsync(int alunoId)
         {
-            return await _context.Parcelas
-                .Include(p => p.Aluno)
+            return await _context.Parcelas                
                 .Where(p => p.AlunoId == alunoId)
                 .ToListAsync();
         }
 
         public async Task<Parcela> ObterPorIdAsync(int parcelaId)
         {
-            return await _context.Parcelas
-                .Include(p => p.Aluno)
+            return await _context.Parcelas                
                 .FirstOrDefaultAsync(p => p.Id == parcelaId);
         }
 
